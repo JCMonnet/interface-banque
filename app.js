@@ -22,15 +22,30 @@ function faireDepot(event) {
     // Empêcher la validation du formulaire d'actualiser la page
     event.preventDefault();
     let inputDepot = document.querySelector('#inputDepot');
+    let messageValidation=document.querySelector('.alert-depot');
     // Transformation de la valeur de l'input en nombre grâce à parseInt()
     let montantDepot = parseInt(inputDepot.value);
-    // Actualisation du solde du compte en ajoutant le dépot au solde existant
+    // pour éviter l'enregistrement des depôts de 0 ou négatif
+    if (montantDepot<= 0){
+    messageValidation.textContent="désolé ce montant n'est pas valide";
+    messageValidation.classList.add('negative');
+}
+// pour éviter validation champs vide
+else if (inputDepot.value==""){
+    messageValidation.textContent="désolé vous devez saisir un montant";
+    messageValidation.classList.add('negative'); 
+}
+
+ else  {
     compte.solde = compte.solde + montantDepot;
-    actualiserCompte();
+    messageValidation.textContent="votre depôt a bien été enregistré";
+    messageValidation.classList.add('positive');
+    insererHistorique("depot", montantDepot);
+}
+actualiserCompte();
     // On remet la value de l'input vide pour réinitialiser le champ
     inputDepot.value = "";
-    // Appeler la fonction pour insérer le depot dans l'historique en passant l'information que c'est un depot
-    insererHistorique("depot", montantDepot);
+    
 };
 
 // cette fois avec fonction flechée
@@ -50,17 +65,24 @@ if (montantRetrait>compte.solde) {
     message.textContent=" désolé, solde insuffisant";
     message.classList.add("negative");
 }
+// pour éviter les retraits de 0 ou négatif
+ else if(montantRetrait<=0){
+    message.textContent=" désolé, ce montant n'est pas valide";
+    message.classList.add("negative");
+}
+else if (inputRetrait.value==""){
+    message.textContent="désolé vous devez saisir un montant";
+    message.classList.add('negative') }
 // Sinon on effectue le retrait
 else {
     compte.solde= compte.solde - montantRetrait
-    message.textContent=" votre retrait a bien été effectué";
+    message.textContent=" votre retrait a bien été enregistré";
     message.classList.add("positive");
+    insererHistorique("retrait", montantRetrait);
 };
 actualiserCompte();
 // On remet la value de l'input vide pour réinitialiser le champ
 inputRetrait.value="";
-// Appeler la fonction pour insérer le retrait dans l'historique en passant l'information que c'est un retrait
-insererHistorique("retrait", montantRetrait);
 });
 
 // Insertion de l'opération dans l'historique en fonction du type d'opération reçue
