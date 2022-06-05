@@ -22,6 +22,28 @@ let comptes = [
     },
 ];
 
+// Ecouteur d'evenement sur le bouton validation numero de compte
+btnAccount = document.querySelector("#btn-account");
+btnAccount.addEventListener("click", (event) => {
+    // Empêcher la validation du formulaire d'actualiser la page
+    event.preventDefault();
+    // Appel de la fonction pour la connexion
+    connection();
+});
+
+// Fonction pour determiner true/false si le compte existe
+function checkAccountExists(accountNumber) {
+    // Boucle pour parcourir la liste des comptes
+    for (const compte of comptes) {
+        // Si un compte correspond à notre numéro de compte rentré dans l'input
+        if (compte["numero"] == accountNumber) {
+            // On retourne true
+            return true;
+        }
+    }
+    // Si à la fin de la boucle on a rien trouvé on retourne false
+    return false;
+}
 
 // Fonction de connexion
 function connection() {
@@ -45,17 +67,4 @@ function connection() {
     }
 }
 
-// Fonction pour determiner true/false si le compte existe
-function checkAccountExists(accountNumber) {
-    // Boucle pour parcourir la liste des comptes
-    for (const compte of comptes) {
-        // Si un compte correspond à notre numéro de compte rentré dans l'input
-        if (compte["numero"] == accountNumber) {
-            // On retourne true
-            return true;
-        }
-    }
-    // Si à la fin de la boucle on a rien trouvé on retourne false
-    return false;
-}
 
