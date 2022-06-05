@@ -1,9 +1,53 @@
-// Liste de compte sous forme d'objets dans un array
-compte = {
-    numero: 1,
-    nom: "JC Monnet",
-    solde: 2500,
-};
+// Liste de compte sous forme d'objets dans un tableau
+let comptes = [
+    {
+        numero: 1,
+        nom: "JC Monnet",
+        solde: 2500,
+    },
+    {
+        numero: 2,
+        nom: "Melanie Monnet",
+        solde: 2500,
+    },
+    {
+        numero: 3,
+        nom: "Clemence Monnet",
+        solde: 250,
+    },
+    {
+        numero: 4,
+        nom: "Lola Monnet",
+        solde: 250,
+    },
+];
+
+// Appel de la fonction pour récupérer le numéro de compte dans l'URL
+let numeroCompte = getNumberAccount();
+
+// Fonction pour récupérer le numéro de compte dans l'URL
+function getNumberAccount() {
+    // Récupération du numéro de compte dans l'URL [CODE INEXPLICABLE A GARDER]
+    const queryString = window.location.search;
+    const urlParams = new URLSearchParams(queryString);
+    const numeroCompte = urlParams.get("account");
+    return numeroCompte;
+}
+
+// Définition du compte en appelant la fonction pour récupérer les informations du compte en précisant le numéro de compte à chercher
+let compte = getAccount(numeroCompte);
+
+// Fonction pour récupérer le compte
+function getAccount(accountNumber) {
+    // Boucle for of pour parcourir le tableau des comptes
+    for (const compte of comptes) {
+        // Si un compte correspond à notre numéro de compte rentré dans l'input
+        if (compte.numero == accountNumber) {
+            // On retourne le compte entier
+            return compte;
+        }
+    }
+}
 
 // Actualisation du nom et du solde sur la page HTML dès le chargement de la page
 actualiserCompte();
@@ -81,7 +125,7 @@ boutonRetrait.addEventListener('click', faireRetrait => {
         message.classList.add("positive");
         insererHistorique("retrait", montantRetrait);
         actualiserCompte();
-    // On remet la value de l'input vide pour réinitialiser le champ
+        // On remet la value de l'input vide pour réinitialiser le champ
     };
     inputRetrait.value = "";
 });
